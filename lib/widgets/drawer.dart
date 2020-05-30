@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilerecharge/auth_service.dart';
+import 'package:mobilerecharge/widgets/auth_service.dart';
 import 'package:mobilerecharge/widgets/geo_locator_plugin_demo.dart';
 import 'package:mobilerecharge/widgets/video_player_demo.dart';
 import 'package:provider/provider.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobilerecharge/providers/carousel_provider/carousel_provider.dart';
 import 'package:mobilerecharge/providers/carousel_provider/current_index_provider.dart';
 import 'package:mobilerecharge/providers/location_provider/loc_provider.dart';
-import 'package:mobilerecharge/auth_service.dart';
+import 'package:mobilerecharge/widgets/auth_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
