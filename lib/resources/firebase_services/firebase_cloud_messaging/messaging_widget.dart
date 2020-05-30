@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilerecharge/models/message.dart';
+import 'package:mobilerecharge/models/entity_model/firebase_message_model.dart';
 
 class MessagingWidget extends StatefulWidget {
   @override
@@ -9,40 +9,37 @@ class MessagingWidget extends StatefulWidget {
 
 class _MessagingWidgetState extends State<MessagingWidget> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final List<Message> messages = [];
- 
+  final List<FirebaseMessage> _messages = [];
 
   @override
   void initState() {
     super.initState();
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        final notification = message['notification'];
+      onMessage: (Map<String, dynamic> _message) async {
+        print("onMessage: $_message");
+        final notification = _message['notification'];
         setState(() {
-          messages.add(Message(
-              title: notification['title'], body: notification['body']));
+          _messages.add(
+              FirebaseMessage(title: notification['title'], body: notification['body']));
         });
-         
       },
-      
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+      onLaunch: (Map<String, dynamic> _message) async {
+        print("onLaunch: $_message");
 
-        final notification = message['data'];
+        final notification = _message['data'];
         setState(() {
-          messages.add(Message(
+          _messages.add(FirebaseMessage(
             title: '${notification['title']}',
             body: '${notification['body']}',
           ));
         });
       },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-         final notification = message['data'];
-         
+      onResume: (Map<String, dynamic> _message) async {
+        print("onResume: $_message");
+        final notification = _message['data'];
+
         setState(() {
-          messages.add(Message(
+          _messages.add(FirebaseMessage(
             title: '${notification['title']}',
             body: '${notification['body']}',
           ));
@@ -58,14 +55,14 @@ class _MessagingWidgetState extends State<MessagingWidget> {
     return Scaffold(
       body: Center(
         child: ListView(
-          children: messages.map(buildMessage).toList(),
+          children: _messages.map(buildMessage).toList(),
         ),
       ),
     );
   }
 
-  Widget buildMessage(Message message) => ListTile(
-        title: Text(message.title),
-        subtitle: Text(message.body),
+  Widget buildMessage(FirebaseMessage _message) => ListTile(
+        title: Text(_message.title),
+        subtitle: Text(_message.body),
       );
 }

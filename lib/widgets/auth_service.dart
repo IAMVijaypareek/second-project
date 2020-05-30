@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mobilerecharge/screens/homescreen.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilerecharge/screens/loginscreen.dart';
+import 'package:mobilerecharge/screens/pages/homescreen.dart';
+import 'package:mobilerecharge/screens/pages/loginscreen.dart';
 
 class AuthService {
   //Handles Auth

@@ -1,12 +1,17 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilerecharge/models/reuse.dart';
-import 'package:mobilerecharge/providers/carouselprovider.dart';
-import 'package:mobilerecharge/providers/currenindexprovider.dart';
-import 'package:mobilerecharge/services/remoteconfigservies.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mobilerecharge/models/card_model/reuse.dart';
+import 'package:mobilerecharge/providers/carousel_provider/carousel_provider.dart';
+import 'package:mobilerecharge/providers/carousel_provider/current_index_provider.dart';
+import 'package:mobilerecharge/resources/firebase_services/remote_config_servies.dart';
+import 'package:mobilerecharge/screens/chat_screens/contacts_view.dart';
+import 'package:mobilerecharge/screens/chat_screens/doctorscreens/doctor_chat_screen.dart';
+import 'package:mobilerecharge/screens/chat_screens/userscreens/doctors_search_screen.dart';
+import 'package:mobilerecharge/screens/list_of_doctors.dart';
 import 'package:mobilerecharge/widgets/builddots.dart';
 import 'package:mobilerecharge/widgets/drawer.dart';
-import 'package:mobilerecharge/widgets/getting.dart';
+import 'package:mobilerecharge/widgets/geo_locator_plugin_demo.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -18,15 +23,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //int _currentPage=0;
   PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
-
-    print("init");
   }
 
   /* @override
@@ -45,8 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget build(BuildContext context) {
-    print("build h bhai");
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -55,28 +55,47 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Shimmer.fromColors(
             baseColor: Colors.red,
             highlightColor: Colors.yellow,
-            child: Text(
-              widget.title,
-              style: TextStyle(
+            child: Text(widget.title,
+                style: GoogleFonts.squadaOne(
+                    textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold))
+                /*TextStyle(
                   color: Colors.white,
                   fontSize: 25.0,
-                  fontWeight: FontWeight.bold),
-            )),
+                  fontWeight: FontWeight.bold),*/
+                )),
         centerTitle: true,
         actions: <Widget>[
+          Container(
+              color: Colors.white,
+              child: IconButton(
+                icon: Icon(Icons.location_on),
+                onPressed: () {
+                  _showModalBottomsheet(context);
+                },
+              )),
           Stack(
             children: <Widget>[
               Positioned(
                 child: Center(
-                  child: Icon(
-                    Icons.notification_important,
-                    color: Colors.black,
-                    size: 30.0,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ContactView()));
+                    },
+                    icon: Icon(
+                      Icons.notification_important,
+                      color: Colors.black,
+                      size: 30.0,
+                    ),
                   ),
                 ),
               ),
               Positioned(
                 top: 10.0,
+                right: 10.0,
                 height: 15.0,
                 width: 15.0,
                 child: Center(
@@ -92,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -103,15 +122,15 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                child:  FutureBuilder<RemoteConfig>(
-        future: setupRemoteConfig(),
-        builder: (BuildContext context, AsyncSnapshot<RemoteConfig> snapshot) {
-          print("Future of remote");
-              return snapshot.hasData
-              ? WelcomeWidget(remoteConfig: snapshot.data)
-              : Container();
-        },
-      ),
+                child: FutureBuilder<RemoteConfig>(
+                  future: setupRemoteConfig(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<RemoteConfig> snapshot) {
+                    return snapshot.hasData
+                        ? WelcomeWidget(remoteConfig: snapshot.data)
+                        : Container();
+                  },
+                ),
               ),
               Container(
                 height: 200,
@@ -151,10 +170,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: MediaQuery.of(context).size.height / 3,
                     child: Column(
                       children: <Widget>[
-                        Text(
-                          'Save Lives',
-                          //GoogleFonts.lato(),
-                        ),
+                        Text('Save Lives',
+                            style: GoogleFonts.pacifico(
+                                textStyle: TextStyle(
+                                    color: Colors.blue, letterSpacing: .5),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w800)
+                            //GoogleFonts.lato(),
+                            ),
                         SizedBox(
                           height: 20.0,
                         ),
@@ -248,8 +271,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => GettingStartedScreen()));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ListOfDoctors()));
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
@@ -257,7 +280,24 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Container(
           width: MediaQuery.of(context).size.width * .90, child: DrawerTab()),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
         elevation: 0.0,
+        onTap: (int index) {
+          print(index);
+          if (index == 0) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    MyHomePage(title: 'Beckup Bull')));
+          }
+          if (index == 1) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => SearchScreen()));
+          }
+          if (index == 2) {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (BuildContext context) => Exp()));
+          }
+        },
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
@@ -320,22 +360,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     ]),
               )),
               GestureDetector(
+                  onTap: () {},
                   child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.monetization_on,
-                          size: 50.0, color: Colors.blueAccent),
-                      SizedBox(height: 20.0),
-                      Text(
-                        "Insurance",
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ]),
-              )),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.monetization_on,
+                              size: 50.0, color: Colors.blueAccent),
+                          SizedBox(height: 20.0),
+                          Text(
+                            "Insurance",
+                            style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                  )),
             ]),
       ),
     );
@@ -388,13 +429,17 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             //color: Colors.pink,
             child: Center(
-              child: Text(
-                item.titletext,
-                style: TextStyle(
+              child: Text(item.titletext,
+                  style: GoogleFonts.lobster(
+                      textStyle: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white))
+                  /*TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
+                    color: Colors.white),*/
+                  ),
             ),
           ),
           Positioned(
@@ -443,5 +488,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
               )),
         ]));
+  }
+
+  _showModalBottomsheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: MediaQuery.of(context).size.height / 3,
+            child: Container(child: GeoPage()),
+          );
+        });
   }
 }

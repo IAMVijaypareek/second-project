@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilerecharge/widgets/auth_service.dart';
-import 'package:mobilerecharge/widgets/messagehandler.dart';
-import 'package:mobilerecharge/widgets/messaging_widget.dart';
-import 'package:mobilerecharge/widgets/videoplayerdemo.dart';
+import 'package:mobilerecharge/auth_service.dart';
+import 'package:mobilerecharge/widgets/geo_locator_plugin_demo.dart';
+import 'package:mobilerecharge/widgets/video_player_demo.dart';
 import 'package:provider/provider.dart';
-
-
-
 
 class DrawerTab extends StatefulWidget {
   @override
@@ -30,23 +26,18 @@ class _DrawerTabState extends State<DrawerTab> {
               child: Container(
                 child: UserAccountsDrawerHeader(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: <Color>[
-                        Colors.white60,
-                        Colors.blue
-                        
-                      ]
-
-                    )
-                  ),
+                      gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: <Color>[Colors.white60, Colors.blue])),
                   accountName: Text(""),
                   accountEmail: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        "Welcome "  + "\n" + user.phoneNumber.replaceFirst(RegExp(r'\+91'), ''),
+                        "Welcome " +
+                            "\n" +
+                            user.phoneNumber.replaceFirst(RegExp(r'\+91'), ''),
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18.0,
@@ -58,7 +49,6 @@ class _DrawerTabState extends State<DrawerTab> {
                 ),
               ),
             ),
-          
             Container(
               color: Colors.white30,
               child: ListTile(
@@ -78,7 +68,8 @@ class _DrawerTabState extends State<DrawerTab> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessageHandler()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => GeoPage()));
                 },
               ),
             ),
@@ -103,9 +94,7 @@ class _DrawerTabState extends State<DrawerTab> {
                       fontSize: 10.0,
                       fontWeight: FontWeight.bold),
                 ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessagingWidget()));
-                },
+                onTap: () {},
               ),
             ),
             Divider(
@@ -133,7 +122,8 @@ class _DrawerTabState extends State<DrawerTab> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => VideoApp()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => VideoApp()));
                 },
               ),
             ),
@@ -161,9 +151,7 @@ class _DrawerTabState extends State<DrawerTab> {
                       fontSize: 10.0,
                       fontWeight: FontWeight.bold),
                 ),
-                onTap: () {
-                    
-                },
+                onTap: () {},
               ),
             ),
             Divider(

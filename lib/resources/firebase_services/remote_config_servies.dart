@@ -34,7 +34,7 @@ class WelcomeWidget extends AnimatedWidget {
                     textAlign: TextAlign.center,
                   ),
                 )
-              : Text('Welcome ${remoteConfig.getString('welcome')}')),
+              : Text('${remoteConfig.getString('welcome')}')),
       /*floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.refresh),
           onPressed: () async {
@@ -60,7 +60,7 @@ Future<RemoteConfig> setupRemoteConfig() async {
   // Enable developer mode to relax fetch throttling
   remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
   remoteConfig.setDefaults(<String, dynamic>{
-    'welcome': 'default welcome',
+    'welcome': '',
     'hello': 'default hello',
   });
   try {

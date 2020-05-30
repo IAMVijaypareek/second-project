@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobilerecharge/models/channel_model.dart';
-import 'package:mobilerecharge/models/video_model.dart';
-import 'package:mobilerecharge/screens/video_screen.dart';
-import 'package:mobilerecharge/services/api_service.dart';
+import 'package:mobilerecharge/models/video_model/channel_model.dart';
+import 'package:mobilerecharge/models/video_model/video_model.dart';
+import 'package:mobilerecharge/screens/video_screen/video_screen.dart';
+import 'package:mobilerecharge/screens/video_screen/youtube_api_service/api_service.dart';
 
 class YoutubeScreen extends StatefulWidget {
   @override

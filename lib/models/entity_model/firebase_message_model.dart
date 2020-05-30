@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class Message {
+class FirebaseMessage {
   final String title;
   final String body;
 
-  const Message({
+  const FirebaseMessage({
     @required this.title,
     @required this.body,
   });

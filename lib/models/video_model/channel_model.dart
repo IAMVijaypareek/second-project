@@ -1,7 +1,6 @@
-import 'package:mobilerecharge/models/video_model.dart';
+import 'package:mobilerecharge/models/video_model/video_model.dart';
 
 class Channel {
-
   final String id;
   final String title;
   final String profilePictureUrl;
@@ -30,5 +29,4 @@ class Channel {
       uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
     );
   }
-
 }

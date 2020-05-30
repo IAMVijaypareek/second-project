@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:mobilerecharge/models/channel_model.dart';
-import 'package:mobilerecharge/models/video_model.dart';
+import 'package:mobilerecharge/models/video_model/channel_model.dart';
+import 'package:mobilerecharge/models/video_model/video_model.dart';
 import 'package:mobilerecharge/utilities/keys.dart';
 
 class APIService {
@@ -81,5 +81,4 @@ class APIService {
       throw json.decode(response.body)['error']['message'];
     }
   }
-
 }
