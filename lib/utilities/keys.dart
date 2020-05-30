@@ -1,1 +1,1 @@
-const String API_KEY = 'AIzaSyCI__vjMoc8eVBUtqMLsi2zaTEBGzUBNKs';
+const String API_KEY = 'paste_your_youtube_api_key';
