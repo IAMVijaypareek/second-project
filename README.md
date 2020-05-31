@@ -1,5 +1,7 @@
 # mobilerecharge
 
+functinality like video streaming, authentication
+
 A new Flutter project.
 
 ## Getting Started
